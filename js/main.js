@@ -38,10 +38,10 @@ function firstQuestion() {
         background: '#fff url("img/iput-bg.jpg")',
         imageAlt: 'Custom image',
         confirmButtonText: CONFIG.btnIntro
-    }).then(function() {
-        $('.content').show(200);
-        var audio = new Audio('sound/sound.mp3');
-        audio.play();
+    // }).then(function() {
+    //     $('.content').show(200);
+    //     var audio = new Audio('sound/sound.mp3');
+    //     audio.play();
     })
 }
 
