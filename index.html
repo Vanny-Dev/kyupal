@@ -18,7 +18,8 @@
             <!-- Display current time -->
             <div id="timeDisplay">
                 <h2 id="currentTime" style="text-align: center;">Loading current time...</h2>
-                <h4 id="mess" style="text-align: center;">Loading Message...</h4>
+                <h4 style="text-align: center;">Wait until 10pm PHT and the button will pop up.<br></h4>
+                <p>This page will redirect to a secret page if you click the button.</p>
             </div>
 
             <!-- Button for redirection, hidden initially -->
@@ -59,7 +60,6 @@
 
             // Update the current time display on the page
             document.getElementById("currentTime").textContent = `Current Time: ${formattedTime} on ${formattedDate}`;
-            document.getElementById("mess").textContent = `Waiting for 10:00 PM PHT...`;
 
             // Debugging: Log the UTC and PHT time
             console.log(`UTC Time: ${utcHours}:${utcMinutes} on ${month + 1}/${day}`);
