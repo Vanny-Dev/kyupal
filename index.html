@@ -35,11 +35,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <script>
-        // Function to play sound on page load
-        function loadSound() {
-            var audio = new Audio('sound/sound.mp3');
-            audio.play();
-        }
 
         // Function to display the current time in PHT and update the display
         function displayTime() {
@@ -81,7 +76,7 @@
             }
 
             // Check if it's 10:00 PM PHT
-            if (phtHours === 12 && utcMinutes === 20) {
+            if (phtHours === 12 && utcMinutes === 22) {
                 console.log("It's 10:00 PM PHT! Showing button.");
                 showRedirectButton(); // Show the button
             } else {
