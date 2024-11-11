@@ -2,55 +2,111 @@
 <html lang="en">
 
 <head>
-    <title id="titleWeb"></title>
+    <title>November 11 at 10 PM</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/spinload.css">
-    <link rel="stylesheet" type="text/css" href=" https://fonts.googleapis.com/css?family=Pacifico" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
-<body onload="loadSound()">
-    <div class="wrapper">
-        <!-- Preloader -->
-        <div id="preloader">
-            <div class="spinner">
-                <div class="rect1"></div>
-                <div class="rect2"></div>
-                <div class="rect3"></div>
-                <div class="rect4"></div>
-                <div class="rect5"></div>
+<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+    <div class="card" style="width: 100%; max-width: 500px; border-radius: 15px;">
+        <div class="card-body text-center">
+            <!-- Display current time -->
+            <div id="timeDisplay">
+                <h2 id="currentTime" style="text-align: center;">Loading current time...</h2>
+                <h4 id="mess" style="text-align: center;">Loading Message...</h4>
+            </div>
+
+            <!-- Button for redirection, hidden initially -->
+            <div id="redirectButton" style="display: none; text-align: center;">
+                <button id="goToSecretPage" class="btn btn-primary btn-lg">Go to Secret Page</button>
             </div>
         </div>
-        <div id="bg"></div>
-        <div class="content">
-            <header>
-                <h2 id="title"></h2>
-                <h4 id="desc"></h4>
-            </header>
-            <button id="yes" type="button" class="btn btn-danger btn-lg"> </button>
-            <button id="no" type="button" class="btn btn-info btn-lg"></button>
-        </div>
     </div>
+
     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="./config.js"></script>
-    <script src="./js/main.js"></script>
 
     <script>
+        // Function to play sound on page load
         function loadSound() {
             var audio = new Audio('sound/sound.mp3');
             audio.play();
         }
-    </script>
-</body>
 
+        // Function to display the current time in PHT and update the display
+        function displayTime() {
+            var now = new Date();
+            var utcHours = now.getUTCHours(); // Get UTC hours (0-23)
+            var utcMinutes = now.getUTCMinutes(); // Get UTC minutes (0-59)
+            var month = now.getMonth(); // Get the current month (0-11)
+            var day = now.getDate(); // Get the current day of the month (1-31)
+
+            // Adjust for Philippine Time (UTC +8)
+            var phtHours = utcHours + 8; // Add 8 hours to convert to Philippine Time (PHT)
+            if (phtHours >= 24) {
+                phtHours -= 24; // Reset to 0-23 range
+            }
+
+            var formattedTime = `${phtHours}:${utcMinutes < 10 ? '0' : ''}${utcMinutes} PHT`; // Format time
+            var formattedDate = `${month + 1}/${day}`; // Format date as MM/DD
+
+            // Update the current time display on the page
+            document.getElementById("currentTime").textContent = `Current Time: ${formattedTime} on ${formattedDate}`;
+            document.getElementById("mess").textContent = `Waiting for 10:00 PM PHT...`;
+
+            // Debugging: Log the UTC and PHT time
+            console.log(`UTC Time: ${utcHours}:${utcMinutes} on ${month + 1}/${day}`);
+            console.log(`Converted to PHT: ${phtHours}:${utcMinutes} on ${month + 1}/${day}`);
+        }
+
+        // Function to check if it's 10:00 PM PHT
+        function checkTime() {
+            var now = new Date();
+            var utcHours = now.getUTCHours();
+            var utcMinutes = now.getUTCMinutes();
+            var month = now.getMonth(); // 0 = January, 10 = November
+            var day = now.getDate(); // Day of the month
+
+            // Adjust for Philippine Time (UTC +8)
+            var phtHours = utcHours + 8;
+            if (phtHours >= 24) {
+                phtHours -= 24; // Reset if it's more than 24 hours (wrap around)
+            }
+
+            // Check if it's 10:00 PM PHT
+            if (phtHours === 22 && utcMinutes === 0) {
+                console.log("It's 10:00 PM PHT! Showing button.");
+                showRedirectButton(); // Show the button
+            } else {
+                console.log("It's not 10:00 PM PHT yet. Checking again...");
+                setTimeout(checkTime, 1000); // Recheck every second
+            }
+        }
+
+        // Function to show the redirect button
+        function showRedirectButton() {
+            var buttonDiv = document.getElementById("redirectButton");
+            buttonDiv.style.display = "block"; // Show button when time is 10:00 PM PHT
+
+            // Button click event to redirect to secret.html
+            document.getElementById("goToSecretPage").onclick = function() {
+                window.location.href = "secret.html"; // Redirect to secret.html
+            };
+        }
+
+        // Start the time display and time check when the page loads
+        window.onload = function () {
+            setInterval(displayTime, 1000); // Update the time every second
+            checkTime(); // Start checking if it's 10:00 PM PHT
+        };
+    </script>
+
+</body>
 </html>
